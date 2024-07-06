@@ -11,7 +11,9 @@ namespace Hranitelen_magazin
     internal class Program
     {
         private static string filePath = "hrani.txt";
+        
         private static List<Product> products = new List<Product>();
+        
         private static string menuActionChoice;
 
         static void Main(string[] args)
@@ -54,7 +56,7 @@ namespace Hranitelen_magazin
 
         private static void Exit()
         {
-            Environment.Exit(0);
+             Environment.Exit(0);
         }
 
         private static void ListProducts()
@@ -74,7 +76,33 @@ namespace Hranitelen_magazin
 
         private static void AddNewProduct()
         {
-            throw new NotImplementedException();
+            //Трябва да създадем полетата 
+            Console.WriteLine("\tНомер на продукт: ");
+            string productId = Console.ReadLine();
+            
+            Console.WriteLine("\tНомер на продукт: ");
+            string name = Console.ReadLine();
+            
+            Console.WriteLine("\tНомер на продукт: ");
+            string category = Console.ReadLine();
+            
+            Console.WriteLine("\tНомер на продукт: ");
+            string price = Console.ReadLine();
+            
+            Console.WriteLine("\tНомер на продукт: ");
+            string quantity = Console.ReadLine();
+
+            try
+            {
+                //Трябва да създадем конструктор в Product.Cs
+                Product newProduct = new Product(productId, name, category, price, quantity);
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         private static void ShowActionTitle(string v)
         {
