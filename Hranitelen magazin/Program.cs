@@ -30,7 +30,7 @@ namespace Hranitelen_magazin
                 switch (menuActionChoice)
                 {
                     case "1":
-                        ShowActionTitle("Добавяне на ноив продукт");
+                        ShowActionTitle("Добавяне на нов продукт");
                         AddNewProduct();
                         break;
                     case "2":
@@ -76,7 +76,7 @@ namespace Hranitelen_magazin
 
         private static void AddNewProduct()
         {
-            //Трябва да създадем полетата 
+           
             Console.WriteLine("\tНомер на продукт: ");
             string productId = Console.ReadLine();
             
@@ -94,7 +94,7 @@ namespace Hranitelen_magazin
 
             try
             {
-                //Трябва да създадем конструктор в Product.Cs
+                //Трябва да създадем конструктор в Product.cs
                 Product newProduct = new Product(productId, name, category, price, quantity);
                 
             }
