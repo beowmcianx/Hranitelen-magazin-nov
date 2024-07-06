@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Hranitelen_magazin
 
     internal class Program
     {
-        private static string filePath = "hrani";
+        private static string filePath = "hrani.txt";
         private static List<Product> products = new List<Product>();
         private static string menuActionChoice;
 
@@ -19,7 +20,7 @@ namespace Hranitelen_magazin
             Console.OutputEncoding = Encoding.Unicode;
 
             PrintMenu();
-            LoadFlights();
+            LoadProducts();
 
             while (true)
             {
@@ -27,33 +28,33 @@ namespace Hranitelen_magazin
                 switch (menuActionChoice)
                 {
                     case "1":
-                        ShowActionTitle("Създаване на нов полет");
+                        ShowActionTitle("Добавяне на ноив продукт");
                         AddNewProduct();
                         break;
                     case "2":
+                        ShowActionTitle("Продажба на продукт");
                         BuyProduct();
                         break;
                     case "3":
-                        ShowActionTitle("Търсене на полет по номер или дестинация");
+                        ShowActionTitle("Поверка на наличността на продукт");
                         SearchProduct();
                         break;
                     case "4":
-                        ShowActionTitle("Списък на всички полети");
+                        ShowActionTitle("Справка за всички продукти в магазина");
                         ListProducts();
                         break;
-                    case "x" or "X":
+                    case "x":
                         Exit();
                         break;
-                    default:
-                        // todo: implement default case
-
+                            default:
                         break;
                 }
             }
         }
+
         private static void Exit()
         {
-            throw new NotImplementedException();
+            Environment.Exit(0);
         }
 
         private static void ListProducts()
@@ -79,15 +80,24 @@ namespace Hranitelen_magazin
         {
             throw new NotImplementedException();
         }
-
-        private static void LoadFlights()
+        private static void LoadProducts()
         {
             throw new NotImplementedException();
         }
-
         private static void PrintMenu()
         {
             throw new NotImplementedException();
+        }
+        private static void SaveProducts()
+        {
+            StreamWriter writer = new StreamWriter(filePath, false, Encoding.Unicode);
+            using (writer)
+            {
+                foreach (Product product in products)
+                {
+                    writer.WriteLine(product);
+                }
+            }
         }
     }
 }
