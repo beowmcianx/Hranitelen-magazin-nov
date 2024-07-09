@@ -98,12 +98,8 @@ namespace Hranitelen_magazin
 
             if (searchedProduct != null)
             {
-                Console.WriteLine("\tНалично количество на продукта: " + searchedProduct.Quantity);
-                Console.WriteLine("\tЦена на продукта: " + searchedProduct.Price);
-            }
-            else
-            {
-                Console.WriteLine("\tПродуктът не е намерен.");
+                Console.WriteLine("Налично количество на продукта:" + searchedProduct.Quantity);
+                Console.WriteLine("Цена на продукта:" + searchedProduct.Price);
             }
 
             BackToMenu();
