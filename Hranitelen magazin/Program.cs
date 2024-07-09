@@ -50,7 +50,6 @@ namespace Hranitelen_magazin
                 }
             }
         }
-
         private static void Exit()
         {
             SaveProducts();
@@ -60,9 +59,9 @@ namespace Hranitelen_magazin
         private static void BackToMenu()
         {
             AddLine();
-
+            Console.Write("\tНатисни произволен клавиш обратно към МЕНЮ: ");
             Console.Write("\tНатиснете произволен клавиш обратно към МЕНЮ: ");
-            Console.WriteLine(" ");
+            AddLine();
             Console.ReadLine();
             PrintMenu();
         }
@@ -95,23 +94,18 @@ namespace Hranitelen_magazin
             AddLine();
 
             Product searchedProduct = products.FirstOrDefault(f => f.Name.Equals(filter, StringComparison.OrdinalIgnoreCase));
-
             if (searchedProduct != null)
             {
-                Console.WriteLine("\tНалично количество на продукта: " + searchedProduct.Quantity);
-                Console.WriteLine("\tЦена на продукта: " + searchedProduct.Price);
+                Console.WriteLine("\tНалично количество на продукта:" + searchedProduct.Quantity);
+                Console.WriteLine("\tЦена на продукта:" + searchedProduct.Price);
             }
-            else
-            {
-                Console.WriteLine("\tПродуктът не е намерен.");
-            }
-
             BackToMenu();
         }
 
         private static void BuyProduct()
         {
-            Console.WriteLine("Списък с налични продукти:");
+            Console.WriteLine("\tСписък с налични продукти:");
+            AddLine();
             foreach (var product in products)
             {
                 PrintProductInfo(product);
@@ -123,7 +117,7 @@ namespace Hranitelen_magazin
 
             if (productToBuy == null)
             {
-                Console.WriteLine("Продуктът не е намерен.");
+                Console.WriteLine("\tПродуктът не е намерен.");
                 BackToMenu();
                 return;
             }
@@ -136,22 +130,22 @@ namespace Hranitelen_magazin
                     double productValue = quantity * productToBuy.Price;
                     productToBuy.SetQuantity(productToBuy.Quantity - quantity);
 
-                    Console.WriteLine("Стойност на продукта: " + productValue);
+                    Console.WriteLine("\tСтойност на продукта: " + productValue);
                 }
                 else
                 {
-                    Console.WriteLine("Недостатъчно количество в наличност.");
+                    Console.WriteLine("\tНедостатъчно количество в наличност.");
                 }
             }
             else
             {
-                Console.WriteLine("Невалидно количество.");
+                Console.WriteLine("\tНевалидно количество.");
             }
 
             BackToMenu();
         }
-
-
+        
+        
         private static void AddNewProduct()
         {
             Console.WriteLine("\tНомер на продукт: ");
@@ -184,6 +178,7 @@ namespace Hranitelen_magazin
             BackToMenu();
         }
 
+        
         private static void ShowActionTitle(string title)
         {
             AddLine();
@@ -215,6 +210,7 @@ namespace Hranitelen_magazin
             }
         }
 
+        
         private static void PrintMenu()
         {
             AddLine();
@@ -231,6 +227,7 @@ namespace Hranitelen_magazin
             Console.Write("\tВашият избор: ");
         }
 
+        
         private static void AddLine(int count = 1)
         {
             for (int i = 0; i < count; i++)
