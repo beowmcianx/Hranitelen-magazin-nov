@@ -60,7 +60,8 @@ namespace Hranitelen_magazin
         {
             AddLine();
             Console.Write("\tНатиснете произволен клавиш обратно към МЕНЮ: ");
-            AddLine();
+            Console.WriteLine(" ");
+>>>>>>>>> Temporary merge branch 2
             Console.ReadLine();
             PrintMenu();
         }
@@ -95,9 +96,23 @@ namespace Hranitelen_magazin
             Product searchedProduct = products.FirstOrDefault(f => f.Name.Equals(filter, StringComparison.OrdinalIgnoreCase));
             if (searchedProduct != null)
             {
-                Console.WriteLine("\tНалично количество на продукта:" + searchedProduct.Quantity);
-                Console.WriteLine("\tЦена на продукта:" + searchedProduct.Price);
+<<<<<<<<< Temporary merge branch 1
+                Console.WriteLine("Налично количество на продукта: " + searchedProduct.Quantity);
+                Console.WriteLine("Цена на продукта: " + searchedProduct.Price);
             }
+            else
+            {
+                Console.WriteLine("Продуктът не е намерен.");
+=========
+                Console.WriteLine("\tНалично количество на продукта: " + searchedProduct.Quantity);
+                Console.WriteLine("\tЦена на продукта: " + searchedProduct.Price);
+            }
+            else
+            {
+                Console.WriteLine("\tПродуктът не е намерен.");
+>>>>>>>>> Temporary merge branch 2
+            }
+
             BackToMenu();
         }
 
