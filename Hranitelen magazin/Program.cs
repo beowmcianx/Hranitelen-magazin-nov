@@ -59,7 +59,6 @@ namespace Hranitelen_magazin
         private static void BackToMenu()
         {
             AddLine();
-            Console.Write("\tНатисни произволен клавиш обратно към МЕНЮ: ");
             Console.Write("\tНатиснете произволен клавиш обратно към МЕНЮ: ");
             AddLine();
             Console.ReadLine();
