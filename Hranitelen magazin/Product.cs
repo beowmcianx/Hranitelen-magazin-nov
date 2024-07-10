@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hranitelen_magazin
 {
@@ -11,43 +7,74 @@ namespace Hranitelen_magazin
         private int productId;
         private string name;
         private string category;
-        private decimal price;
+        private double price;
         private int quantity;
 
-        public int ProductId { get; private set; } 
-        public string Name { get; private set; }
-        public string Category { get; private set; }
-        public decimal Price
+        public Product(int productId, string name, string category, double price, int quantity)
         {
-            get
-            {
-                return price;
-            }
+            ProductId = productId;
+            Name = name;
+            Category = category;
+            Price = price;
+            Quantity = quantity;
+        }
+
+        public int ProductId
+        {
+            get { return productId; }
+            private set { productId = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            private set { name = value; }
+        }
+
+        public string Category
+        {
+            get { return category; }
+            private set { category = value; }
+        }
+
+        public double Price
+        {
+            get { return price; }
             private set
             {
-                if (price <= 0)
+                if (value <= 0)
                 {
                     throw new ArgumentException("Цената на продукта трябва да е положителна");
                 }
+                price = value;
             }
         }
-        public int Quantity 
+
+        public int Quantity
         {
-            get
-            {
-                return quantity;
-            }
+            get { return quantity; }
             private set
             {
-                if (quantity <= 0)
+                if (value < 0)
                 {
-                    throw new ArgumentException("Количеството на продукта трябва да е положително");
+                    throw new ArgumentException("Количеството на продукта не може да е отрицателно");
                 }
+                quantity = value;
             }
         }
 
+        public void SetQuantity(int newQuantity)
+        {
+            if (newQuantity < 0)
+            {
+                throw new ArgumentException("Количеството на продукта не може да е отрицателно");
+            }
+            Quantity = newQuantity;
+        }
 
-
-
+        public override string ToString()
+        {
+            return $"{ProductId}, {Name}, {Category}, {Price}, {Quantity}";
+        }
     }
 }

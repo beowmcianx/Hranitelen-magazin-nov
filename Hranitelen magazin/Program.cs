@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Hranitelen_magazin
 {
-
     internal class Program
     {
-        private static string filePath = "hrani.txt";
-        
+        private const string filePath = "hrani.txt";
         private static List<Product> products = new List<Product>();
-        
         private static string menuActionChoice;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
 
-            PrintMenu();
             LoadProducts();
+            PrintMenu();
 
             while (true)
             {
@@ -38,7 +34,7 @@ namespace Hranitelen_magazin
                         BuyProduct();
                         break;
                     case "3":
-                        ShowActionTitle("Поверка на наличността на продукт");
+                        ShowActionTitle("Проверка на наличността на продукт");
                         SearchProduct();
                         break;
                     case "4":
@@ -48,74 +44,212 @@ namespace Hranitelen_magazin
                     case "x":
                         Exit();
                         break;
-                            default:
+                    default:
+                        Console.WriteLine("Невалиден избор. Моля, опитайте отново.");
                         break;
                 }
             }
         }
-
         private static void Exit()
         {
-             Environment.Exit(0);
+            SaveProducts();
+            Environment.Exit(0);
+        }
+
+        private static void BackToMenu()
+        {
+            AddLine();
+            Console.Write("\tНатиснете произволен клавиш обратно към МЕНЮ: ");
+            Console.WriteLine(" ");
+>>>>>>>>> Temporary merge branch 2
+            Console.ReadLine();
+            PrintMenu();
         }
 
         private static void ListProducts()
         {
-            throw new NotImplementedException();
+            foreach (Product product in products)
+            {
+                PrintProductInfo(product);
+                AddLine();
+            }
+            BackToMenu();
         }
+
+        private static void PrintProductInfo(Product product)
+        {
+            string output = $"\tНомер на продукта: {product.ProductId}\n" +
+                            $"\tИме: {product.Name}\n" +
+                            $"\tКатегория: {product.Category}\n" +
+                            $"\tЦена: {product.Price}\n" +
+                            $"\tКоличество: {product.Quantity}\n";
+            Console.WriteLine(output);
+        }
+
 
         private static void SearchProduct()
         {
-            throw new NotImplementedException();
+            Console.Write("\tВъведете име на продукт: ");
+            string filter = Console.ReadLine();
+            AddLine();
+
+            Product searchedProduct = products.FirstOrDefault(f => f.Name.Equals(filter, StringComparison.OrdinalIgnoreCase));
+            if (searchedProduct != null)
+            {
+<<<<<<<<< Temporary merge branch 1
+                Console.WriteLine("Налично количество на продукта: " + searchedProduct.Quantity);
+                Console.WriteLine("Цена на продукта: " + searchedProduct.Price);
+            }
+            else
+            {
+                Console.WriteLine("Продуктът не е намерен.");
+=========
+                Console.WriteLine("\tНалично количество на продукта: " + searchedProduct.Quantity);
+                Console.WriteLine("\tЦена на продукта: " + searchedProduct.Price);
+            }
+            else
+            {
+                Console.WriteLine("\tПродуктът не е намерен.");
+>>>>>>>>> Temporary merge branch 2
+            }
+
+            BackToMenu();
         }
 
         private static void BuyProduct()
         {
-            throw new NotImplementedException();
-        }
+            Console.WriteLine("\tСписък с налични продукти:");
+            AddLine();
+            foreach (var product in products)
+            {
+                PrintProductInfo(product);
+            }
 
+            Console.Write("\tВъведете име на продукт: ");
+            string productName = Console.ReadLine();
+            Product productToBuy = products.FirstOrDefault(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase));
+
+            if (productToBuy == null)
+            {
+                Console.WriteLine("\tПродуктът не е намерен.");
+                BackToMenu();
+                return;
+            }
+
+            Console.Write("\tВъведете количеството, което искате да закупите: ");
+            if (int.TryParse(Console.ReadLine(), out int quantity) && quantity > 0)
+            {
+                if (quantity <= productToBuy.Quantity)
+                {
+                    double productValue = quantity * productToBuy.Price;
+                    productToBuy.SetQuantity(productToBuy.Quantity - quantity);
+
+                    Console.WriteLine("\tСтойност на продукта: " + productValue);
+                }
+                else
+                {
+                    Console.WriteLine("\tНедостатъчно количество в наличност.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\tНевалидно количество.");
+            }
+
+            BackToMenu();
+        }
+        
+        
         private static void AddNewProduct()
         {
-           
             Console.WriteLine("\tНомер на продукт: ");
             string productId = Console.ReadLine();
-            
-            Console.WriteLine("\tНомер на продукт: ");
+
+            Console.WriteLine("\tИме на продукт: ");
             string name = Console.ReadLine();
-            
-            Console.WriteLine("\tНомер на продукт: ");
+
+            Console.WriteLine("\tКатегория на продукт: ");
             string category = Console.ReadLine();
-            
-            Console.WriteLine("\tНомер на продукт: ");
+
+            Console.WriteLine("\tЦена на продуктът в лева: ");
             string price = Console.ReadLine();
-            
-            Console.WriteLine("\tНомер на продукт: ");
+
+            Console.WriteLine("\tКоличество на продукт: ");
             string quantity = Console.ReadLine();
 
             try
             {
-                //Трябва да създадем конструктор в Product.cs
-                Product newProduct = new Product(productId, name, category, price, quantity);
-                
+                Product newProduct = new Product(int.Parse(productId), name, category, double.Parse(price), int.Parse(quantity));
+                products.Add(newProduct);
+                SaveProducts();
+                Console.WriteLine("\tПродуктът е добавен успешно.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine("\tГрешка при добавянето на продукта: " + ex.Message);
             }
+
+            BackToMenu();
         }
-        private static void ShowActionTitle(string v)
+
+        
+        private static void ShowActionTitle(string title)
         {
-            throw new NotImplementedException();
+            AddLine();
+            Console.WriteLine("\t" + title);
+            AddLine();
         }
+
         private static void LoadProducts()
         {
-            throw new NotImplementedException();
+            if (!File.Exists(filePath))
+                return;
+
+            StreamReader reader = new StreamReader(filePath, Encoding.Unicode);
+            using (reader)
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] productInfo = line.Split(',');
+                    int productId = int.Parse(productInfo[0]);
+                    string name = productInfo[1];
+                    string category = productInfo[2];
+                    double price = double.Parse(productInfo[3]);
+                    int quantity = int.Parse(productInfo[4]);
+
+                    Product currentProduct = new Product(productId, name, category, price, quantity);
+                    products.Add(currentProduct);
+                }
+            }
         }
+
+        
         private static void PrintMenu()
         {
-            throw new NotImplementedException();
+            AddLine();
+            Console.WriteLine("\tМ Е Н Ю");
+            AddLine();
+            Console.WriteLine("\tМоля изберете желаното действие:");
+            AddLine();
+            Console.WriteLine("\t[1]: Добавяне на нов продукт");
+            Console.WriteLine("\t[2]: Продажба на продукт");
+            Console.WriteLine("\t[3]: Проверка на наличността на продукт");
+            Console.WriteLine("\t[4]: Справка за всички продукти в магазина");
+            Console.WriteLine("\t[x]: Изход от програмата");
+            AddLine();
+            Console.Write("\tВашият избор: ");
         }
+
+        
+        private static void AddLine(int count = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine();
+            }
+        }
+
         private static void SaveProducts()
         {
             StreamWriter writer = new StreamWriter(filePath, false, Encoding.Unicode);
@@ -123,7 +257,7 @@ namespace Hranitelen_magazin
             {
                 foreach (Product product in products)
                 {
-                    writer.WriteLine(product);
+                    writer.WriteLine($"{product.ProductId},{product.Name},{product.Category},{product.Price},{product.Quantity}");
                 }
             }
         }
